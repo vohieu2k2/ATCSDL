@@ -28,6 +28,7 @@ namespace ATCSDL
         {
             InitializeComponent();
             loginSupplier = login;
+            LoadCategoriesIntoComboBox(categoryCb);
         }
 
         private void addBtn_Click(object sender, EventArgs e)
@@ -37,13 +38,10 @@ namespace ATCSDL
             string number = numberTxt.Text;
             int category = 0;
             string descrip = descripTxt.Text;
-            if (plantRadio.Checked)
+
+            if (categoryCb.SelectedItem != null)
             {
-                category = 1;
-            }
-            else if (animalRadio.Checked)
-            {
-                category = 2;
+                category = (int)categoryCb.SelectedValue;
             }
 
             // Kiểm tra xem text1, text2 và text3 đã được nhập hay chưa
@@ -182,6 +180,28 @@ namespace ATCSDL
             homeSupplier.Show();
             // Đóng addProduct (tùy chọn)
             this.Hide();
+        }
+
+        private void LoadCategoriesIntoComboBox(System.Windows.Forms.ComboBox comboBox)
+        {
+
+            // Câu lệnh SQL để lấy dữ liệu từ bảng Category
+            string query = "SELECT IDCategory, NameCategory FROM Category";
+
+            // Sử dụng SqlConnection và SqlDataAdapter để lấy dữ liệu
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(query, connection);
+                DataTable dataTable = new DataTable();
+                // Mở kết nối và lấy dữ liệu
+                connection.Open();
+                dataAdapter.Fill(dataTable);
+
+                // Thiết lập DataSource, DisplayMember và ValueMember cho ComboBox
+                comboBox.DataSource = dataTable;
+                comboBox.DisplayMember = "NameCategory";
+                comboBox.ValueMember = "IDCategory";
+            }
         }
     }
 }

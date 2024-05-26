@@ -38,9 +38,6 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.standDeliRadio = new System.Windows.Forms.RadioButton();
             this.fastDeliRadio = new System.Windows.Forms.RadioButton();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cashRadio = new System.Windows.Forms.RadioButton();
-            this.transferRadio = new System.Windows.Forms.RadioButton();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.fLPanel = new System.Windows.Forms.FlowLayoutPanel();
@@ -51,14 +48,15 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.paymentCb = new System.Windows.Forms.ComboBox();
             this.formPanel.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // formPanel
             // 
             this.formPanel.AutoScroll = true;
+            this.formPanel.Controls.Add(this.paymentCb);
             this.formPanel.Controls.Add(this.addCartBtn);
             this.formPanel.Controls.Add(this.backBtn);
             this.formPanel.Controls.Add(this.transportLabel);
@@ -66,7 +64,6 @@
             this.formPanel.Controls.Add(this.sumLabel);
             this.formPanel.Controls.Add(this.label5);
             this.formPanel.Controls.Add(this.groupBox2);
-            this.formPanel.Controls.Add(this.groupBox1);
             this.formPanel.Controls.Add(this.label4);
             this.formPanel.Controls.Add(this.label2);
             this.formPanel.Controls.Add(this.fLPanel);
@@ -179,40 +176,6 @@
             this.fastDeliRadio.Text = "Giao hàng nhanh";
             this.fastDeliRadio.UseVisualStyleBackColor = true;
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.cashRadio);
-            this.groupBox1.Controls.Add(this.transferRadio);
-            this.groupBox1.Location = new System.Drawing.Point(456, 576);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(397, 60);
-            this.groupBox1.TabIndex = 174;
-            this.groupBox1.TabStop = false;
-            // 
-            // cashRadio
-            // 
-            this.cashRadio.AutoSize = true;
-            this.cashRadio.Checked = true;
-            this.cashRadio.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cashRadio.Location = new System.Drawing.Point(6, 21);
-            this.cashRadio.Name = "cashRadio";
-            this.cashRadio.Size = new System.Drawing.Size(136, 37);
-            this.cashRadio.TabIndex = 151;
-            this.cashRadio.TabStop = true;
-            this.cashRadio.Text = "Tiền mặt";
-            this.cashRadio.UseVisualStyleBackColor = true;
-            // 
-            // transferRadio
-            // 
-            this.transferRadio.AutoSize = true;
-            this.transferRadio.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.transferRadio.Location = new System.Drawing.Point(167, 21);
-            this.transferRadio.Name = "transferRadio";
-            this.transferRadio.Size = new System.Drawing.Size(201, 37);
-            this.transferRadio.TabIndex = 152;
-            this.transferRadio.Text = "Chuyển khoản";
-            this.transferRadio.UseVisualStyleBackColor = true;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -310,6 +273,15 @@
             this.label3.TabIndex = 162;
             this.label3.Text = "Thông tin đơn hàng";
             // 
+            // paymentCb
+            // 
+            this.paymentCb.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.paymentCb.FormattingEnabled = true;
+            this.paymentCb.Location = new System.Drawing.Point(456, 595);
+            this.paymentCb.Name = "paymentCb";
+            this.paymentCb.Size = new System.Drawing.Size(368, 41);
+            this.paymentCb.TabIndex = 181;
+            // 
             // PayBill
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -323,8 +295,6 @@
             this.formPanel.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -339,9 +309,6 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.RadioButton standDeliRadio;
         private System.Windows.Forms.RadioButton fastDeliRadio;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton cashRadio;
-        private System.Windows.Forms.RadioButton transferRadio;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.FlowLayoutPanel fLPanel;
@@ -354,5 +321,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button addCartBtn;
         private System.Windows.Forms.Button backBtn;
+        private System.Windows.Forms.ComboBox paymentCb;
     }
 }

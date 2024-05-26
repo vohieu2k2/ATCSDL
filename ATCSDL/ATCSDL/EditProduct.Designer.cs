@@ -32,8 +32,6 @@
             this.imageBtn = new System.Windows.Forms.Button();
             this.editBtn = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
-            this.animalRadio = new System.Windows.Forms.RadioButton();
-            this.plantRadio = new System.Windows.Forms.RadioButton();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.descripTxt = new System.Windows.Forms.TextBox();
@@ -46,6 +44,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.backBtn = new System.Windows.Forms.Button();
             this.deleteBtn = new System.Windows.Forms.Button();
+            this.categoryCb = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -88,30 +87,6 @@
             this.label7.Size = new System.Drawing.Size(117, 33);
             this.label7.TabIndex = 75;
             this.label7.Text = "Hình ảnh";
-            // 
-            // animalRadio
-            // 
-            this.animalRadio.AutoSize = true;
-            this.animalRadio.Font = new System.Drawing.Font("Times New Roman", 10F);
-            this.animalRadio.Location = new System.Drawing.Point(918, 110);
-            this.animalRadio.Name = "animalRadio";
-            this.animalRadio.Size = new System.Drawing.Size(106, 26);
-            this.animalRadio.TabIndex = 74;
-            this.animalRadio.Text = "Động vật";
-            this.animalRadio.UseVisualStyleBackColor = true;
-            // 
-            // plantRadio
-            // 
-            this.plantRadio.AutoSize = true;
-            this.plantRadio.Checked = true;
-            this.plantRadio.Font = new System.Drawing.Font("Times New Roman", 10F);
-            this.plantRadio.Location = new System.Drawing.Point(807, 110);
-            this.plantRadio.Name = "plantRadio";
-            this.plantRadio.Size = new System.Drawing.Size(105, 26);
-            this.plantRadio.TabIndex = 73;
-            this.plantRadio.TabStop = true;
-            this.plantRadio.Text = "Thực vật";
-            this.plantRadio.UseVisualStyleBackColor = true;
             // 
             // label6
             // 
@@ -234,19 +209,27 @@
             this.deleteBtn.UseVisualStyleBackColor = true;
             this.deleteBtn.Click += new System.EventHandler(this.deleteBtn_Click);
             // 
+            // categoryCb
+            // 
+            this.categoryCb.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.categoryCb.FormattingEnabled = true;
+            this.categoryCb.Location = new System.Drawing.Point(807, 99);
+            this.categoryCb.Name = "categoryCb";
+            this.categoryCb.Size = new System.Drawing.Size(212, 41);
+            this.categoryCb.TabIndex = 82;
+            // 
             // EditProduct
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1242, 697);
+            this.Controls.Add(this.categoryCb);
             this.Controls.Add(this.deleteBtn);
             this.Controls.Add(this.backBtn);
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.imageBtn);
             this.Controls.Add(this.editBtn);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.animalRadio);
-            this.Controls.Add(this.plantRadio);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.descripTxt);
@@ -272,8 +255,6 @@
         private System.Windows.Forms.Button imageBtn;
         private System.Windows.Forms.Button editBtn;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.RadioButton animalRadio;
-        private System.Windows.Forms.RadioButton plantRadio;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox descripTxt;
@@ -286,5 +267,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button backBtn;
         private System.Windows.Forms.Button deleteBtn;
+        private System.Windows.Forms.ComboBox categoryCb;
     }
 }

@@ -56,6 +56,7 @@ namespace ATCSDL
 
         private void DirectBuy_Load(object sender, EventArgs e)
         {
+            LoadPaymentsIntoComboBox(paymentCb);
             // Tạo câu truy vấn SQL
             string query = "SELECT NameCustomer, AddressCustomer, TelephoneCustomer FROM Customer WHERE LoginCustomer = @LoginCustomer";
 
@@ -226,15 +227,7 @@ namespace ATCSDL
                         cmd.Parameters.AddWithValue("@DateOrder", DateTime.Now.Date);
                         cmd.Parameters.AddWithValue("@AddressOrder", addressTxt.Text);
                         cmd.Parameters.AddWithValue("@LoginCustomer", loginCustomer);
-                        // Kiểm tra và gán giá trị cho @IDPayment dựa trên giá trị của CashRadio và PayRadio
-                        if (cashRadio.Checked)
-                        {
-                            cmd.Parameters.AddWithValue("@IDPayment", 1); // Giả sử 1 là giá trị cho Cash
-                        }
-                        else if (transferRadio.Checked)
-                        {
-                            cmd.Parameters.AddWithValue("@IDPayment", 2); // Giả sử 2 là giá trị cho Pay
-                        }
+                        cmd.Parameters.AddWithValue("@IDPayment", paymentCb.SelectedValue);
 
                         // Kiểm tra và gán giá trị cho @IDTransportation
                         if (standDeliRadio.Checked)
@@ -272,6 +265,7 @@ namespace ATCSDL
                         }
                     }
                 }
+
                 // thêm dữ liệu vào bảng ProductInOrder
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
@@ -298,9 +292,45 @@ namespace ATCSDL
                                     return;
                                 }
                             }
+
+
                         }
                             
                     }
+
+                }
+            }
+
+            // Sửa lại giá trị NumberProduct trong Product
+            foreach(ProductInCart productInCart in products)
+            {
+                // Câu lệnh SQL UPDATE
+                string sqlQuery = "UPDATE Product SET NumberProduct = NumberProduct - @ValueToSubtract WHERE IDProduct = @ProductID";
+
+                // Tạo kết nối SQL
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    // Tạo đối tượng SqlCommand
+                    SqlCommand command = new SqlCommand(sqlQuery, connection);
+
+                    // Thêm các tham số cho câu lệnh SQL
+                    command.Parameters.AddWithValue("@ValueToSubtract", productInCart.NumberInCart);
+                    command.Parameters.AddWithValue("@ProductID", productInCart.IDProduct);
+
+                    // Mở kết nối
+                    connection.Open();
+
+                    // Thực thi câu lệnh SQL
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected <= 0)
+                    {
+                        MessageBox.Show("Đặt hàng thất bại. Vui lòng thử lại", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    connection.Close();
+
                 }
             }
 
@@ -400,6 +430,28 @@ namespace ATCSDL
         private void addressTxt_Leave(object sender, EventArgs e)
         {
             CalculateMoney();
+        }
+
+        private void LoadPaymentsIntoComboBox(System.Windows.Forms.ComboBox comboBox)
+        {
+
+            // Câu lệnh SQL để lấy dữ liệu từ bảng Category
+            string query = "SELECT IDPayment, TypePayment FROM Payment";
+
+            // Sử dụng SqlConnection và SqlDataAdapter để lấy dữ liệu
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(query, connection);
+                DataTable dataTable = new DataTable();
+                // Mở kết nối và lấy dữ liệu
+                connection.Open();
+                dataAdapter.Fill(dataTable);
+
+                // Thiết lập DataSource, DisplayMember và ValueMember cho ComboBox
+                comboBox.DataSource = dataTable;
+                comboBox.DisplayMember = "TypePayment";
+                comboBox.ValueMember = "IDPayment";
+            }
         }
     }
 }

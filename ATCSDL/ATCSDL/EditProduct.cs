@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ATCSDL
 {
@@ -29,16 +30,10 @@ namespace ATCSDL
 
         private void EditProduct_Load(object sender, EventArgs e)
         {
+            LoadCategoriesIntoComboBox(categoryCb);
             nameTxt.Text = product.Name;
             priceTxt.Text = product.Price.ToString();
-            if(product.category == 1)
-            {
-                plantRadio.Checked = true;
-            }
-            else
-            {
-                animalRadio.Checked = true;
-            }
+            categoryCb.SelectedValue = product.category;
             numberTxt.Text = product.number.ToString();
             descripTxt.Text = product.description.ToString();
             if (product.image.SequenceEqual(new byte[0]))
@@ -112,14 +107,11 @@ namespace ATCSDL
                         command.Parameters.AddWithValue("@Image", new byte[0]);
                     }
 
-                    if (plantRadio.Checked)
+                    if (categoryCb.SelectedItem != null)
                     {
-                        command.Parameters.AddWithValue("@Category", 1);
+                        command.Parameters.AddWithValue("@Category", (int)categoryCb.SelectedValue);
                     }
-                    else if (animalRadio.Checked)
-                    {
-                        command.Parameters.AddWithValue("@Category", 2);
-                    }
+
                     // Thực hiện truy vấn SQL để chèn dữ liệu
                     int rowsAffected = command.ExecuteNonQuery();
                     if (rowsAffected > 0)
@@ -376,6 +368,28 @@ namespace ATCSDL
                         }
                     }
                 }
+            }
+        }
+
+        private void LoadCategoriesIntoComboBox(System.Windows.Forms.ComboBox comboBox)
+        {
+
+            // Câu lệnh SQL để lấy dữ liệu từ bảng Category
+            string query = "SELECT IDCategory, NameCategory FROM Category";
+
+            // Sử dụng SqlConnection và SqlDataAdapter để lấy dữ liệu
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(query, connection);
+                DataTable dataTable = new DataTable();
+                // Mở kết nối và lấy dữ liệu
+                connection.Open();
+                dataAdapter.Fill(dataTable);
+
+                // Thiết lập DataSource, DisplayMember và ValueMember cho ComboBox
+                comboBox.DataSource = dataTable;
+                comboBox.DisplayMember = "NameCategory";
+                comboBox.ValueMember = "IDCategory";
             }
         }
     }

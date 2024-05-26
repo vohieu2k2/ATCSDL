@@ -248,7 +248,6 @@ namespace ATCSDL
                             // Lấy giá trị từ các cột
                             statusOrder = reader["StatusOrder"].ToString();
                             loginCustomer = reader["LoginCustomer"].ToString();
-
                         }
                         else
                         {
@@ -261,7 +260,7 @@ namespace ATCSDL
 
             InfoSupplierBill infoBill = new InfoSupplierBill(productInOrder, statusOrder, loginSupplier, loginCustomer, productInOrder[0].IDOrder);
             infoBill.Show();
-            this.Hide();
+            this.Close();
         }
 
         private void PictureBox_Click(object sender, EventArgs e)

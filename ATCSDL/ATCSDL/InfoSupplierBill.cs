@@ -169,7 +169,6 @@ namespace ATCSDL
 
         private void LoadInfoBill()
         {
-
             // Câu lệnh SQL để lấy dữ liệu từ bảng Customer
             string query = "SELECT NameCustomer, TelephoneCustomer FROM [Customer] WHERE LoginCustomer = @LoginCustomer";
 
@@ -284,6 +283,38 @@ namespace ATCSDL
 
         private void cancelBtn_Click(object sender, EventArgs e)
         {
+            // Sửa lại giá trị NumberProduct trong Product
+            foreach (ProductInOrder productInOrder in productInOrders)
+            {
+                // Câu lệnh SQL UPDATE
+                string sqlQuery = "UPDATE Product SET NumberProduct = NumberProduct + @ValueToSubtract WHERE IDProduct = @ProductID";
+
+                // Tạo kết nối SQL
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    // Tạo đối tượng SqlCommand
+                    SqlCommand command = new SqlCommand(sqlQuery, connection);
+
+                    // Thêm các tham số cho câu lệnh SQL
+                    command.Parameters.AddWithValue("@ValueToSubtract", productInOrder.NumberProductOrder);
+                    command.Parameters.AddWithValue("@ProductID", productInOrder.IDProduct);
+
+                    // Mở kết nối
+                    connection.Open();
+
+                    // Thực thi câu lệnh SQL
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected <= 0)
+                    {
+                        MessageBox.Show("Đặt hàng thất bại. Vui lòng thử lại", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    connection.Close();
+                }
+            }
+
             // Câu lệnh SQL để cập nhật StatusOrder trong bảng Order
             string updateQuery = "UPDATE [Order] SET StatusOrder = @NewStatusOrder WHERE IDOrder = @IDOrder";
 
@@ -317,6 +348,7 @@ namespace ATCSDL
                     return;
                 }
             }
+
         }
 
         private void backBtn_Click(object sender, EventArgs e)

@@ -28,19 +28,23 @@ namespace ATCSDL
             this.statusOrder = statusOrder;
             if(statusOrder.Equals("Chờ xác nhận"))
             {
+                statusLabel.Text = "Chờ xác nhận";
                 changeInfoBtn.Visible = true;
                 commitBtn.Text = "Hủy đơn hàng";
             } else if(statusOrder.Equals("Đang giao"))
             {
+                statusLabel.Text = "Đang giao";
                 changeInfoBtn.Visible = false;
                 commitBtn.Text = "Nhận được hàng";
             } else if(statusOrder.Equals("Đã giao"))
             {
+                statusLabel.Text = "Đã giao";
                 changeInfoBtn.Visible = true;
                 changeInfoBtn.Text = "Đánh giá";
                 commitBtn.Text = "Trả hàng";
             } else if(statusOrder.Equals("Đã hủy"))
             {
+                statusLabel.Text = "Đã hủy";
                 changeInfoBtn.Visible= false;
                 commitBtn.Visible = false;
             }
@@ -50,6 +54,39 @@ namespace ATCSDL
         {
             if (statusOrder.Equals("Chờ xác nhận"))
             {
+
+                // Sửa lại giá trị NumberProduct trong Product
+                foreach (ProductInOrder productInOrder in productInOrders)
+                {
+                    // Câu lệnh SQL UPDATE
+                    string sqlQuery = "UPDATE Product SET NumberProduct = NumberProduct + @ValueToSubtract WHERE IDProduct = @ProductID";
+
+                    // Tạo kết nối SQL
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        // Tạo đối tượng SqlCommand
+                        SqlCommand command = new SqlCommand(sqlQuery, connection);
+
+                        // Thêm các tham số cho câu lệnh SQL
+                        command.Parameters.AddWithValue("@ValueToSubtract", productInOrder.NumberProductOrder);
+                        command.Parameters.AddWithValue("@ProductID", productInOrder.IDProduct);
+
+                        // Mở kết nối
+                        connection.Open();
+
+                        // Thực thi câu lệnh SQL
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        if (rowsAffected <= 0)
+                        {
+                            MessageBox.Show("Đặt hàng thất bại. Vui lòng thử lại", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        connection.Close();
+                    }
+                }
+
                 // Câu lệnh SQL để cập nhật StatusOrder trong bảng Order
                 string updateQuery = "UPDATE [Order] SET StatusOrder = @NewStatusOrder WHERE IDOrder = @IDOrder";
 
@@ -73,7 +110,7 @@ namespace ATCSDL
                     if (rowsAffected > 0)
                     {
                         MessageBox.Show("Đã hủy đơn hàng thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        CustomerBills customerBills = new CustomerBills(loginSupplier);
+                        CustomerBills customerBills = new CustomerBills(loginCustomer);
                         customerBills.Show();
                         this.Close();
                     }
@@ -109,8 +146,8 @@ namespace ATCSDL
                     if (rowsAffected > 0)
                     {
                         MessageBox.Show("Cập nhật đơn hàng thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        SupplierBills supplierBills = new SupplierBills(loginSupplier);
-                        supplierBills.Show();
+                        CustomerBills customerBills = new CustomerBills(loginCustomer);
+                        customerBills.Show();
                         this.Close();
                     }
                     else
@@ -145,8 +182,8 @@ namespace ATCSDL
                     if (rowsAffected > 0)
                     {
                         MessageBox.Show("Cập nhật đơn hàng thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        SupplierBills supplierBills = new SupplierBills(loginSupplier);
-                        supplierBills.Show();
+                        CustomerBills customerBills = new CustomerBills(loginCustomer);
+                        customerBills.Show();
                         this.Close();
                     }
                     else
